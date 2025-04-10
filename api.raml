@@ -1,0 +1,64 @@
+#%RAML 1.0
+title: Hello World API
+version: v1
+baseUri: http://api.example.com/v1
+description: A simple Hello World API for demonstration purposes
+
+types:
+  Greeting:
+    type: object
+    properties:
+      message:
+        type: string
+        description: The greeting message
+        example: "Hello, World!"
+      timestamp:
+        type: datetime
+        description: The time when the greeting was generated
+        example: "2023-04-09T12:00:00Z"
+
+/hello:
+  get:
+    description: Returns a greeting message
+    responses:
+      200:
+        description: Successful response
+        body:
+          application/json:
+            type: Greeting
+            example: |
+              {
+                "message": "Hello, World!",
+                "timestamp": "2023-04-09T12:00:00Z"
+              }
+  
+  post:
+    description: Creates a personalized greeting
+    body:
+      application/json:
+        type: object
+        properties:
+          name:
+            type: string
+            description: The name to greet
+            example: "John"
+        required: true
+    responses:
+      201:
+        description: Greeting created successfully
+        body:
+          application/json:
+            type: Greeting
+            example: |
+              {
+                "message": "Hello, John!",
+                "timestamp": "2023-04-09T12:00:00Z"
+              }
+      400:
+        description: Bad request
+        body:
+          application/json:
+            example: |
+              {
+                "error": "Name is required"
+              } 
